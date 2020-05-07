@@ -2,12 +2,12 @@
 
 [![License](https://img.shields.io/github/license/jbomanson/tmux-kak-info.kak)](https://opensource.org/licenses/Apache-2.0)
 
-**tmux-kak-info.kak** is a
-[Kakoune](https://github.com/mawww/kakoune) tiny plugin that helps write scripts
+**tmux-kak-info.kak** is a tiny
+[Kakoune](https://github.com/mawww/kakoune) plugin that helps write scripts
 that integrate Kakoune with the terminal multiplexer
 [tmux](https://github.com/tmux/tmux).
-Specifically, the plugin ensures that in every tmux session there is a tmux
-option `@kak_info_sessions` that lists the identifiers of all Kakoune sessions
+Specifically, the plugin ensures that in every tmux session the tmux option
+`@kak_info_sessions` contains a list of the identifiers of all Kakoune sessions
 started within that tmux session.
 
 ![screenshot](docs/screenshot.png)
@@ -40,7 +40,7 @@ source "/path/to/tmux-kak-info.kak/rc/tmux-kak-info.kak"
 
 Suppose you are in a tmux session where you have started two Kakoune sessions
 that have identifiers 11111 and 22222.
-Then, you may write the following in any pane in that session:
+Then, you may write the following in a shell within that tmux session:
 
 ```sh
 tmux show-option -v @kak_info_sessions
@@ -52,8 +52,8 @@ The result will be:
 22222
 ```
 
-To give an idea of how this can be useful, this is how you may print "Hello
-world!" to the debug buffer within the first of those Kakoune sessions:
+To give an idea of how this can be useful, the following is how you may print
+"Hello world!" to the debug buffer within the first of those Kakoune sessions:
 
 ```sh
 echo "echo -debug Hello world!" | kak -p "$(tmux show-option -v @kak_info_sessions | head -n1)"
