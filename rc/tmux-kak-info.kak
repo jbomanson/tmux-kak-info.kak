@@ -10,9 +10,14 @@ hook global ClientCreate .* %(
         assign () {
             # man tmux:
             #  -v shows only the option value, not the name.
+            local e="$(tmux show-option -v "$@" @kak_info_sessions)"
             local v="$(
-                tmux show-option -v "$@" @kak_info_sessions
-                printf "%s" "$kak_session"
+                if test -n "$e"; then
+                    printf "%s\n" "$e"
+                fi
+                if ! printf "%s\n" "$e" | grep -qF "$kak_session"; then
+                    printf "%s\n" "$kak_session"
+                fi
             )"
             local s='tmux set-option "$@" @kak_info_sessions "$v"'
             if ! eval "$s"; then
