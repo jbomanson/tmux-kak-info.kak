@@ -32,7 +32,13 @@ define-command tmux-kak-info-set \
     )
 )
 
-evaluate-commands -client '*' tmux-kak-info-set
+evaluate-commands %sh(
+    for client in $kak_client_list
+    do
+        printf 'evaluate-commands -client "%s" tmux-kak-info-set\n' "$client"
+    done
+)
+
 hook global ClientCreate .* tmux-kak-info-set
 
 hook global KakEnd .* %(
