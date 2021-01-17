@@ -4,7 +4,9 @@ hook global ModuleLoaded tmux %{
 
 provide-module tmux-kak-info %~
 
-hook global ClientCreate .* %(
+define-command tmux-kak-info-set \
+    -hidden \
+%(
     nop %sh(
         test "$TMUX" || exit
         assign () {
@@ -29,6 +31,9 @@ hook global ClientCreate .* %(
         assign -w # Update window option.
     )
 )
+
+evaluate-commands -client '*' tmux-kak-info-set
+hook global ClientCreate .* tmux-kak-info-set
 
 hook global KakEnd .* %(
     nop %sh(
